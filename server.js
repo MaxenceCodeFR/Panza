@@ -19,7 +19,7 @@ app.set('port', port);
 
 const errorHandler = error => {
     if (error.syscall !== 'listen') {
-        throw error;
+        throw error; git
     }
     const address = server.address();
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
