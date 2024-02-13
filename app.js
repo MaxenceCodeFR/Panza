@@ -6,6 +6,8 @@ const Members = require('./models/Members');
 const Admins = require('./models/Admins');
 const Events = require('./models/Events');
 const Workshops = require('./models/Workshops');
+const selectionsSchema = require('./models/Selections');
+const Selections = require('./models/Selections');
 mongoose
     .connect("mongodb+srv://maxencehattabi:maxence@cluster0.qejtgrh.mongodb.net/panza?retryWrites=true&w=majority", {
         useNewUrlParser: true,
@@ -18,7 +20,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-
+    //next() obligatoire ici
+    next();
 });
 
 //MEMBRES//
@@ -95,13 +98,13 @@ app.delete('/api/deleteevent/:id', (req, res, next) => {
 
 app.post('/api/createworkshops', (req, res, next) => {
     const workshops = new Workshops({
-        name: "Entrainement couille en fonte",
-        coach: "David",
-        date: "2022-01-01 18:00",
-        place: "Bordeaux",
-        description: "O_O",
-        unsubscribe: true,
-        grade: 2,
+        name: "Atelier de cuisine",
+        coach: "William Bonnet",
+        date: "2024-12-12 18:00",
+        place: "Rennes",
+        description: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac odio nec nunc tincidunt tincidunt",
+        unsubscribe: false,
+        grade: 10,
         member: ["65ca0cfb4fbca96961e4aced", "65ca0ee18fefc4966d48d1fe"],
     });
     workshops.save()
@@ -125,24 +128,42 @@ app.patch("/api/modifyworkshops/:id", (req, res, next) => {
 });
 
 app.delete('/api/deleteworkshops/:id', (req, res, next) => {
-    Events.deleteOne({ _id: req.params.id })
+    Workshops.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: 'L\'atelier a bien ete supprime' }))
         .catch(error => res.status(400).json({ error: error }));
 
 });
 
-// id event:  65ca1459f4ca723da7c1fc8b
-//"date": "2024-01-01T10:00:00.000Z",
+//Many-to-Many//
+// selectionsSchema.create({ member: ["65ca0ee18fefc4966d48d1fe", "65ca0cfb4fbca96961e4aced"], admin: Admins._id, isVolunteer: true, isSelected: false })
 
-//id membre :65ca0cfb4fbca96961e4aced
+app.put("/api/modifyselections/:id", (req, res, next) => {
+    Selections.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+        .then(() => res.status(200).json({ message: "Selection modifié !" }))
+        .catch((error) => res.status(404).json({ error }));
+});
 
-// //{
-//     "title" : "Rise of Francis",
-//     "date" : "2024-02-01T10:00:00.000Z",
-//     "description" : "Best pièce ever",
-//     "place" : "DTC"
+app.patch("/api/modifyselections/:id", (req, res, next) => {
+    Selections.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+        .then(() => res.status(200).json({ message: "Selection modifié !" }))
+        .catch((error) => res.status(404).json({ error }));
+});
 
-// // }
+app.delete('/api/deleteselections/:id', (req, res, next) => {
+    Selections.deleteOne({ _id: req.params.id })
+        .then(() => res.status(200).json({ message: 'La selection a bien ete supprime' }))
+        .catch(error => res.status(400).json({ error: error }));
+
+});
+
+
+
+// selectionsSchema.find({ member: "65ca0cfb4fbca96961e4aced" }).populate("admin")
+
+
+// selectionsSchema.find({ admin: Admins._id }).populate("member")
+
+
 
 
 module.exports = app;
