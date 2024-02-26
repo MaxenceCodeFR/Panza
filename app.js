@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 const mongoose = require('mongoose');
+//!import modèles
 const Members = require('./models/Members');
 const Admins = require('./models/Admins');
 const Events = require('./models/Events');
@@ -20,11 +21,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    //next() obligatoire ici
+    //!next() obligatoire ici
     next();
 });
 
-//MEMBRES//
+//*MEMBRES//
 app.post('/api/createmember', (req, res, next) => {
     const member = new Members({
         ...req.body
@@ -57,7 +58,7 @@ app.patch("/api/modifymember/:id", (req, res, next) => {
 
 });
 
-//EVENTS//
+//*EVENTS//
 app.post('/api/createvent', (req, res, next) => {
     const event = new Events({
         title: "Arkea Arena",
@@ -94,7 +95,7 @@ app.delete('/api/deleteevent/:id', (req, res, next) => {
 
 });
 
-//WORKSHOPS
+//*WORKSHOPS//
 
 app.post('/api/createworkshops', (req, res, next) => {
     const workshops = new Workshops({
@@ -134,8 +135,9 @@ app.delete('/api/deleteworkshops/:id', (req, res, next) => {
 
 });
 
-//Many-to-Many//
-// selectionsSchema.create({ member: ["65ca0ee18fefc4966d48d1fe", "65ca0cfb4fbca96961e4aced"], admin: Admins._id, isVolunteer: true, isSelected: false })
+//*Many-to-Many//
+
+selectionsSchema.create({ member: ["65ca0ee18fefc4966d48d1fe", "65ca0cfb4fbca96961e4aced"], admin: Admins._id, isVolunteer: true, isSelected: false })
 
 app.put("/api/modifyselections/:id", (req, res, next) => {
     Selections.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
