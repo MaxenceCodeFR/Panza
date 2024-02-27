@@ -7,6 +7,7 @@ const membersSchema = mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     presence: { type: Number, required: true },
+    role: { type: mongoose.Types.ObjectId, ref: "Roles" }
 })
 
 module.exports = mongoose.model('Members', membersSchema);
