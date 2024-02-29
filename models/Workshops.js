@@ -7,7 +7,7 @@ const workshopsSchema = mongoose.Schema({
     date: { type: Date },
     place: { type: String, },
     description: { type: String },
-    // member: [{ type: mongoose.Types.ObjectId, ref: "Members" }]
+    member: [{ type: mongoose.Types.ObjectId, ref: "Members" }]
 })
 
 module.exports = mongoose.model('Workshops', workshopsSchema);

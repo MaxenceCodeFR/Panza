@@ -1,36 +1,17 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const membersSchema = mongoose.Schema({
     firstname: { type: String, required: true },
     name: { type: String, required: true },
-    photo: { type: String, required: true, default: "https://picsum.photos/200/200" },
-    email: { type: String, required: true },
+    photo: { type: String, required: false, default: "https://picsum.photos/200/200" },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    presence: { type: Number, required: true },
-    role: { type: mongoose.Types.ObjectId, ref: "Roles" }
-})
+    presence: { type: Number, required: false, default: 0 },
+    role: { type: mongoose.Types.ObjectId, ref: "Roles", default: "65dca8679d0339572169e0f8" }//default role is member
+});
+
+membersSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Members', membersSchema);
 
-// // My user schema
-
-// var mongoose = require('mongoose');
-// var Schema = mongoose.Schema;
-// var bcrypt = require('bcrypt-nodejs');
-
-// var userSchema = new Schema({
-//   username: String,
-//   password: String
-// });
-
-// // hash the password
-// userSchema.methods.generateHash = function(password) {
-//   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-// };
-
-// // checking if password is valid
-// userSchema.methods.validPassword = function(password) {
-//   return bcrypt.compareSync(password, this.password);
-// };
-// var User = mongoose.model('user', userSchema);
-// module.exports = User;

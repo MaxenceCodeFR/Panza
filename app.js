@@ -1,7 +1,23 @@
 const express = require('express');
-const app = express();
-app.use(express.json());
+const helmet = require('helmet');
 const mongoose = require('mongoose');
+const mongoSanitize = require('express-mongo-sanitize');
+const rateLimit = require('express-rate-limit');
+
+
+
+
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+});
+const app = express()
+
+app.use(express.json());
+app.use(helmet());
+app.use(mongoSanitize());
+app.use(limiter);
 
 //!import route
 const membersRoutes = require('./Routes/Members.js');
@@ -10,6 +26,8 @@ const workshopsRoutes = require('./Routes/Workshops.js');
 const selectionsRoutes = require('./Routes/Selections.js');
 const rolesRoutes = require('./Routes/Roles.js');
 const coachesRoutes = require('./Routes/Coaches.js');
+
+
 
 //!connexion à la base de données
 mongoose
@@ -30,16 +48,26 @@ app.use((req, res, next) => {
 
 //*MEMBRES//
 app.use('/api/members', membersRoutes);
+
 //*EVENTS//
 app.use('/api/events', eventsRoutes);
+
 //*WORKSHOPS//
 app.use('/api/workshops', workshopsRoutes);
+
 //*SELECTIONS//
 app.use('/api/selections', selectionsRoutes);
+
 //*ROLES//
 app.use('/api/roles', rolesRoutes);
+
 //*COACHES//
 app.use('/api/coaches', coachesRoutes);
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 module.exports = app;

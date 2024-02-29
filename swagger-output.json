@@ -1,0 +1,1047 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My API",
+    "description": "Description",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "Members",
+      "description": "Toutes les routes des membres"
+    },
+    {
+      "name": "Events",
+      "description": "Toutes les routes des évenements"
+    },
+    {
+      "name": "Workshops",
+      "description": "Toutes les routes des alteliers"
+    },
+    {
+      "name": "Selections",
+      "description": "Route de la table \"pivot\" entre Events et Members"
+    },
+    {
+      "name": "Roles",
+      "description": "Toutes les routes des rôles"
+    },
+    {
+      "name": "Coaches",
+      "description": "Toute les routes des coachs"
+    }
+  ],
+  "paths": {
+    "/api/members/": {
+      "post": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à créer un membre de la troupe",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à consulter la liste des membres de la troupe",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/members/{id}": {
+      "delete": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à supprimer un membre de la troupe",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à modifier les informations relatives à un membre dans leur ensemble",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à modifier les informations relatives à un membre en partie seulement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à consulter les informatives relatives à un membre spécifique",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/members/signup": {
+      "post": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à créer un profil membre pour un utilisateur qui n'en aurait pas",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "example": "*********"
+                },
+                "email": {
+                  "example": "any@gmail.com"
+                },
+                "firstname": {
+                  "example": "John"
+                },
+                "name": {
+                  "example": "Doe"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/members/login": {
+      "post": {
+        "tags": [
+          "Members"
+        ],
+        "description": "Sert à se connecter grâce à un compte renseigné au préalable",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any@exemple.com"
+                },
+                "password": {
+                  "example": "*********"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/events/": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Sert à un admin à créer une représentation",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Sert à consulter la liste des représentations à venir",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/events/{id}": {
+      "delete": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Sert à supprimer une représentation de la liste",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Sert à modifier complètement les informations relatives à une représentation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Sert à modifier en partie les informations relatives à une représentation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Sert à consulter les informations d'une réprésentation spécifique",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/workshops/": {
+      "post": {
+        "tags": [
+          "Workshops"
+        ],
+        "description": "Sert à créer un atelier",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Workshops"
+        ],
+        "description": "Sert à consulter la liste des ateliers",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/workshops/{id}": {
+      "delete": {
+        "tags": [
+          "Workshops"
+        ],
+        "description": "Sert à supprimer un atelier de la liste",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Workshops"
+        ],
+        "description": "Sert à un admin à créer un atelier ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Workshops"
+        ],
+        "description": "Sert à modifier les informations relatives à un atelier en partie seulement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Workshops"
+        ],
+        "description": "Sert à consulter les informations relatives à un atelier",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/selections/": {
+      "post": {
+        "tags": [
+          "Selections"
+        ],
+        "description": "Sert à créer une sélection de bénévoles et de membres pour une représentation à venir",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Selections"
+        ],
+        "description": "Sert à consulter la liste de sélections pour une représentation à venir",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/selections/{id}": {
+      "delete": {
+        "tags": [
+          "Selections"
+        ],
+        "description": "Sert à supprimer une sélection pour une représentation à venir",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Selections"
+        ],
+        "description": "Sert à modifier totalement les informations d'une sélection pour une représentation à venir",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Selections"
+        ],
+        "description": "Sert à modifier partiellement les informations d'une sélection pour une représentation à venir",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Selections"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/roles/": {
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "description": "Sert à créer un nouveau rôle assignable à un membre inscrit",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "description": "Sert à consulter la liste des rôles de la troupe",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/roles/{id}": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "description": "Sert à consulter les informations d'un membre spécifique",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/coaches/": {
+      "post": {
+        "tags": [
+          "Coaches"
+        ],
+        "description": "Sert à ajouter un coach à la liste des coaches",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Coaches"
+        ],
+        "description": "Sert à consulter la liste des coaches",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/coaches/{id}": {
+      "delete": {
+        "tags": [
+          "Coaches"
+        ],
+        "description": "Sert à supprimer un coach de la liste",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Coaches"
+        ],
+        "description": "Sert à consulter les informations d'un coach spécifique",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Members": {
+      "type": "object",
+      "properties": {
+        "firstname": {
+          "type": "string",
+          "example": "Francis"
+        },
+        "name": {
+          "type": "string",
+          "example": "Prévost"
+        },
+        "photo": {
+          "type": "string",
+          "example": "https://picsum.photos/200/200"
+        },
+        "email": {
+          "type": "string",
+          "example": "francis.prevost@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password"
+        },
+        "presence": {
+          "type": "number",
+          "example": 1
+        },
+        "role": {
+          "type": "string",
+          "example": "60d1f5f5c1b6e3c8e8d9c7e3"
+        }
+      }
+    },
+    "Events": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Soirée Son et Lumière"
+        },
+        "date": {
+          "type": "string",
+          "example": "2021-06-23"
+        },
+        "place": {
+          "type": "string",
+          "example": "Place de la Mairie"
+        },
+        "description": {
+          "type": "string",
+          "example": "Soirée de présentation des activités de l'association"
+        },
+        "member": {
+          "type": "string",
+          "example": "60d1f5f5c1b6e3c8e8d9c7e3"
+        }
+      }
+    },
+    "Workshops": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Atelier de cuisine"
+        },
+        "date": {
+          "type": "string",
+          "example": "2021-06-23"
+        },
+        "place": {
+          "type": "string",
+          "example": "Place de la Mairie"
+        },
+        "description": {
+          "type": "string",
+          "example": "Atelier de cuisine pour les enfants"
+        },
+        "member": {
+          "type": "string",
+          "example": "60d1f5f5c1b6e3c8e8d9c7e3"
+        }
+      }
+    },
+    "Selections": {
+      "type": "object",
+      "properties": {
+        "isVolunteer": {
+          "type": "boolean",
+          "example": true
+        },
+        "isSelected": {
+          "type": "boolean",
+          "example": true
+        },
+        "member": {
+          "type": "string",
+          "example": "60d1f5f5c1b6e3c8e8d9c7e3"
+        },
+        "event": {
+          "type": "string",
+          "example": "60d1f5f5c1b6e3c8e8d9c7e3"
+        }
+      }
+    },
+    "Roles": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Président"
+        }
+      }
+    },
+    "Coaches": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Tintin"
+        },
+        "email": {
+          "type": "string",
+          "example": "tintin@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password"
+        },
+        "phone": {
+          "type": "string",
+          "example": "0606060606"
+        }
+      }
+    }
+  }
+}
