@@ -2,12 +2,7 @@ const Events = require('../models/Events.js');
 
 exports.createEvent = (req, res, next) => {
     const event = new Events({
-        title: "Arkea Arena",
-        date: "2022-01-01 22:00",
-        place: "Bordeaux",
-        description: "Concert de Lomepal",
-        member: ["65ca0cfb4fbca96961e4aced", "65ca0ee18fefc4966d48d1fe"],
-
+        ...req.body
     });
     event.save()
         .then(() => res.status(201).json({ message: 'L\'evenement a bien ete cree' }))

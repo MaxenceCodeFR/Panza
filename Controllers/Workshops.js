@@ -2,18 +2,14 @@ const Workshops = require('../models/Workshops.js');
 const Coaches = require('../models/Coaches.js');
 
 exports.createWorkshops = (req, res, next) => {
-    Coaches.findOne({ _id: req.body.idcoach })
-        .then((coach) => {
-            console.log(coach);
-            const workshops = new Workshops({
-                name: req.body.name,
-                coach: coach,
-            });
-            workshops.save()
-                .then(() => res.status(201).json({ message: 'L\'atelier a bien ete cree' }))
-                .catch(error => res.status(400).json({ error: error }));
-        })
+    const workshops = new Workshops({
+        ...req.body
+    });
+    workshops.save()
+        .then(() => res.status(201).json({ message: 'L\'atelier a bien ete cree' }))
+        .catch(error => res.status(400).json({ error: error }));
 };
+
 
 
 exports.modifyWorkshops = (req, res, next) => {
