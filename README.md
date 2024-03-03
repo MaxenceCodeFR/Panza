@@ -74,7 +74,7 @@ Swagger permet une visualisation plus claire. Chaque route est classée par nom 
 - [@Julien Poirier](https://www.github.com/Julien-Po)
 
 
-## Optimisations et version future
+## Optimisations et versions futures
 
 Pour une version 2, 3 et supérieure:
  - Pouvoir gerer les rôles
