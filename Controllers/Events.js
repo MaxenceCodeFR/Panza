@@ -1,6 +1,6 @@
-const Events = require('../models/Events.js');
-const Selection = require('../models/Selections.js'); // Assurez-vous que le chemin d'accès est correct
-const Member = require('../models/Members.js');
+const Events = require('../Models/Events.js');
+const Selection = require('../Models/Selections.js'); // Assurez-vous que le chemin d'accès est correct
+const Member = require('../Models/Members.js');
 
 exports.createEvent = (req, res, next) => {
     const event = new Events({

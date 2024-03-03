@@ -1,4 +1,4 @@
-const Selections = require('../models/Selections');
+const Selections = require('../Models/Selections');
 
 
 exports.createSelections = (req, res, next) => {

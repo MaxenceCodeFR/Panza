@@ -1,4 +1,4 @@
-const Coaches = require('../models/Coaches');
+const Coaches = require('../Models/Coaches');
 
 exports.createCoach = (req, res, next) => {
     const coach = new Coaches({

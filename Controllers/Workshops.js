@@ -1,4 +1,4 @@
-const Workshops = require('../models/Workshops.js');
+const Workshops = require('../Models/Workshops.js');
 
 exports.createWorkshops = (req, res, next) => {
     const workshops = new Workshops({

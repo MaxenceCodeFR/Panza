@@ -1,4 +1,4 @@
-const Roles = require('../models/Roles.js');
+const Roles = require('../Models/Roles.js');
 
 exports.createRole = (req, res, next) => {
     const role = new Roles({
